@@ -1,0 +1,36 @@
+{
+	"builders": [{
+		"user_ocid": "ocid1.user.oc1.**************************",
+		"tenancy_ocid": "ocid1.tenancy.oc1.*****************************",
+		"fingerprint": "**************************",
+		"key_file": "oci_api_key.pem",
+		"availability_domain": "UAFK:US-ASHBURN-AD-1",
+		"region": "us-ashburn-1",
+		"base_image_ocid": "ocid1.image.oc1.*****************************",
+		"compartment_ocid": "ocid1.compartment.oc1.***********************************",
+		"image_name": "PackerAnsible-new",
+		"shape": "VM.Standard1.1",
+		"ssh_username": "opc",
+		"ssh_password": "welcome1",
+		"subnet_ocid": "ocid1.subnet.oc1.**********************************",
+		"type": "oracle-oci"
+	}],
+	"provisioners": [{
+			"type": "shell",
+			"inline": [
+				"sleep 30",
+				"sudo easy_install pip",
+				"sudo pip install ansible"
+			]
+		},
+		{
+			"type": "ansible-local",
+			"playbook_file": "weblogic-fmw-domain.yml",
+			"inventory_file": "hosts",
+			"playbook_dir": ".",
+			"extra_arguments": [
+				"-v"
+			]
+		}
+	]
+}

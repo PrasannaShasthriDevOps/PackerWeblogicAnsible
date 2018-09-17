@@ -1,0 +1,10 @@
+Unix Shell Builder in Jenkins :
+
+packer --version
+packer build build.json | tee output.txt
+ls -l 
+echo "===================="
+tail output.txt
+echo "===================="
+set OUT=`tail output.txt | grep OCID: | cut -d ":" -f 4 | cut -d ")" -f 1 | tr -d '[:space:]' | tee image_OCID`
+

@@ -1,0 +1,38 @@
+################################################################################
+# ==> tasks for war-deploy Role that deploys war file in a RHEL 7 system
+# ==> author: Prasanna Shasthri
+################################################################################
+
+# ==> Deploy War file
+- name: Copy war file to host
+  copy: src={{ war_file_name }} dest=/tmp/{{ war_file_name }}
+  sudo_user: '{{ oracle_user }}'
+
+- name: Run the wlst script to set the environment
+  command: 'chmod 777 /tmp/{{ war_file_name }}'
+  sudo_user: '{{ oracle_user }}'
+  
+- name: Run the wlst script to set the environment
+  shell: '. {{ oracle_base }}/product/OracleHome/oracle_common/common/bin/setWlstEnv.sh'
+  sudo_user: '{{ oracle_user }}'
+  
+- name: Add JAVA_HOME environment variariables in bashrc
+  lineinfile: dest='/home/{{ oracle_user }}/.bashrc' line='export JAVA_HOME={{ jdk_folder }}'
+  sudo_user: '{{ oracle_user }}'
+  
+- name: Add Java bin folder to path in bashrc
+  lineinfile: dest='/home/{{ oracle_user }}/.bashrc' line='export PATH=$PATH:$JAVA_HOME/bin'
+  sudo_user: '{{ oracle_user }}'
+ 
+- name: bashrc check
+  shell: 'source /home/oracle/.bashrc; cat /home/oracle/.bashrc'
+  sudo_user: '{{ oracle_user }}'
+  
+- name: java version check
+  shell: '{{ jdk_folder }}/bin/java -version'
+  sudo_user: '{{ oracle_user }}'
+
+- name: Deploy war file
+  shell: ". {{ oracle_base }}/product/OracleHome/oracle_common/common/bin/setWlstEnv.sh;{{ jdk_folder }}/bin/java weblogic.Deployer -nostage -deploy -adminurl localhost:7001 -username weblogic -password {{ weblogic_admin_pass }} -targets AdminServer -name employees-app /tmp/{{ war_file_name }}"
+  become_user: root
+  

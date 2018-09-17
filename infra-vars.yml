@@ -1,0 +1,33 @@
+# Oracle os user and group
+oracle_user: 'oracle'
+oracle_group: 'oinstall'
+# Software and configuration main directory
+oracle_base: '/oracle/fmw12.1.3'
+
+# JDK installer and target folder
+jdk_installation_archive: 'jdk-8u181-linux-x64.tar.gz'
+jdk_folder: '{{ oracle_base }}/jdk1.8.0_181'
+
+# fmw installer
+#mw_installer: 'fmw_12.2.1.3.0_wls_quick.jar'
+mw_installer: 'fmw_12.2.1.3.0_infrastructure.jar'
+
+war_file_name: 'employees-app.war'
+
+# database settings for repository
+dbserver_name: '************'
+dbserver_port: '1521'
+dbserver_service: 'PDB1.**************'
+repository_prefix: 'wls12c2'
+
+
+# Domain Name
+domain_name: 'adf_domain'
+
+# Nodemanager and server settings
+node_manager_listen_port: '5556'
+node_manager_listen_address: 'localhost'
+admin_server_hostname: 'localhost'
+admin_server_port: '7001'
+managed_server_name: 'adfsrv1'
+managed_server_port: '7003'
